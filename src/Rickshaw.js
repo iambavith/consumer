@@ -88,7 +88,43 @@ class Rickshaw extends React.Component{
                        this.state.selectAddress ? 
                        null
                        :
-                       <View style={styles.Header} >
+                        this.state.addressSelected ? 
+                            <View style={{
+                            marginVertical : 0.02*screenHeight,
+                            marginLeft : 0.05*screenWidth,
+                            width : 0.9*screenWidth,
+                            elevation : 5,
+                            backgroundColor : "#fff",
+                            height : 0.15*screenHeight,
+                            justifyContent : "center",
+                            borderRadius : 0.04*screenWidth,
+                            position : "absolute",
+                            top : 0.08*screenHeight
+                        }} >
+                        <View style={{flexDirection : "row", alignItems : "center"}} >
+                            <MIcon name="checkbox-blank-circle" color="#13DA9C" style={{marginLeft : 0.05*screenWidth}} />
+                            <Text style={styles.Text1} >24, Ocean avenue</Text>
+                        </View>
+
+                        <View
+                            style={{
+                                height : 0.025*screenHeight,
+                                width : 1,
+                                backgroundColor : "#3E4958",
+                                marginLeft : 0.06*screenWidth
+                            }}
+                        />
+
+                        <View style={{flexDirection : "row", alignItems : "center"}} >
+                            <MIcon name="menu-down" color="#4B545A" style={{marginLeft : 0.03*screenWidth}} size={0.065*screenWidth} />
+                            <Text style={[styles.Text1, {marginLeft : 0.02*screenWidth}]} >Karwal nagar</Text>
+                        </View>
+                        </View>
+                        :
+                        this.state.arriving ? 
+                        null
+                        :
+                        <View style={styles.Header} >
                        <TouchableOpacity style={styles.MenuButton} onPress={() => {this.props.navigation.openDrawer()}} >
                         <Image source={require("../assets/images/menu.png")} />
                     </TouchableOpacity>
@@ -131,12 +167,34 @@ class Rickshaw extends React.Component{
 
                  {
                      this.state.selectAddress ? 
-                     <View style={{
+                     <TouchableOpacity style={{
                          height : "100%",
                          width : "100%",
                          position : "absolute",
                          zIndex : 100
-                     }} >
+                     }} onPress={() => {
+                         this.setState({
+                             selectAddress : false
+                         })
+                     }} activeOpacity={1} >
+
+                         <View style={{
+                             flexDirection : "row",
+                             marginTop : 0.05*screenHeight,
+                             marginLeft : 0.03*screenWidth,
+                             alignItems : "center"
+                         }} >
+                             <IconButton icon="chevron-left" size={0.05*screenWidth} style={{
+                                 backgroundColor : "#fff"
+                             }} />
+
+                             <Text style={{
+                                 marginLeft : 0.03*screenWidth,
+                                 fontFamily : "Bold",
+                                 color : "#3E4958",
+                                 fontSize : 0.045*screenWidth
+                             }} >Select address</Text>
+                         </View>
 
                         <View style={{
                             height : 0.75*screenHeight,
@@ -244,10 +302,22 @@ class Rickshaw extends React.Component{
 
                         </View>
 
-                     </View>
+                     </TouchableOpacity>
                      :
                      this.state.addressSelected ? 
                      <View style={[styles.DetailContainer, {height : 0.4*screenHeight}]} >
+
+                <View style={{
+                            height : 0.15*screenHeight,
+                            width : 0.82*screenWidth,
+                            elevation : 5,
+                            borderRadius : 0.045*screenWidth,
+                            position : "absolute",
+                            top : 0.04*screenHeight,
+                            zIndex : -100,
+                            alignSelf : "center",
+                            
+                        }} ></View>
 
                         <View style={{
                             height : 0.15*screenHeight,
@@ -255,7 +325,8 @@ class Rickshaw extends React.Component{
                             backgroundColor : "#fff",
                             elevation : 5,
                             margin : 0.05*screenWidth,
-                            borderRadius : 0.045*screenWidth
+                            borderRadius : 0.045*screenWidth,
+                            zIndex : 100
                         }} >
                         <View style={{flexDirection : "row", alignItems : "center"}} >
                         <Image
@@ -294,6 +365,10 @@ class Rickshaw extends React.Component{
                        >Rs.280</Text>
 
                         </View>
+
+
+
+
                         <View style={{flexDirection : "row", alignItems : "center"}} >
                         <View style={{
                             height : 0.04*screenHeight,
@@ -381,7 +456,7 @@ class Rickshaw extends React.Component{
                      <IconButton icon="close" color="#3E4958" style={{
                          position : "absolute",
                          right : 0.05*screenWidth
-                     }} onPress={() => {
+                     }}  onPress={() => {
                          this.setState({
                              selectPayment : false
                          })
@@ -413,8 +488,9 @@ class Rickshaw extends React.Component{
                          value={false}
                          style={{
                              position : "absolute",
-                             right : 0.05*screenWidth
+                             right : 0.05*screenWidth,
                          }}
+                         
                      />
 
                         </View>
@@ -586,14 +662,39 @@ class Rickshaw extends React.Component{
                      
                      this.state.arriving ? 
                      <View style={{
+                         height : "100%",
+                         width : "100%",
+                         position : "absolute"
                      }} >
+
+                        <View style={{
+                             flexDirection : "row",
+                             marginTop : 0.05*screenHeight,
+                             marginLeft : 0.03*screenWidth,
+                             alignItems : "center"
+                         }} >
+                             <IconButton icon="chevron-left" size={0.05*screenWidth} style={{
+                                 backgroundColor : "#fff"
+                             }} onPress={() => {
+                                 this.setState({
+                                     arriving : false
+                                 })
+                             }} />
+
+                             <Text style={{
+                                 marginLeft : 0.03*screenWidth,
+                                 fontFamily : "Bold",
+                                 color : "#3E4958",
+                                 fontSize : 0.045*screenWidth
+                             }} >Arriving</Text>
+                         </View>
 
                      <View style={{
                          height : 0.7*screenHeight,
                          width : screenWidth,
                          backgroundColor : "#fff",
                          position : "absolute",
-                         bottom : this.state.bottom,
+                         bottom : 0,
                          borderTopLeftRadius : 0.05*screenWidth,
                          borderTopRightRadius : 0.05*screenWidth,
                      }} >
@@ -645,9 +746,7 @@ class Rickshaw extends React.Component{
                          alignSelf : "center",
                          top : 0.01*screenHeight,
                          borderRadius : screenHeight
-                     }} onPress={() => {this.setState({
-                         bottom : 0.05*screenHeight
-                     })}} />
+                     }} />
 
                         <View style={{flexDirection : "row", alignItems : "center", marginTop : 0.08*screenHeight, width : screenWidth}} >
 

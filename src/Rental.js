@@ -46,7 +46,6 @@ class Rental extends React.Component{
         addressSelected : false,
         selectPayment : false,
         arriving : false,
-        bottom : -0.3*screenHeight,
         cancel : false,
         rentelSelected : false,
         rules : false,
@@ -86,847 +85,963 @@ class Rental extends React.Component{
     }
 
     _renderMapComponent = () => (
-        <View>
-            
 
-            <MapView style={styles.Map}
-                initialRegion={this.state.region}
-                onRegionChange={(region) => {this.setState({region : region})}}
-                 >
-                     <Marker
-                         title="marker"
-                         icon={require("../assets/images/pointer.png")}
-                         coordinate={this.state.LatLng[0]}
-                         draggable={true}
-                     />
-                        <Marker
-                         title="marker"
-                         icon={require("../assets/images/marker.png")}
-                         coordinate={this.state.LatLng[1]}
-                         draggable={true}
+        <View style={{
+            height : "100%",
+            width : "100%"
+        }} >
+        
+        {
+            this.state.selectAddress ? 
+            null
+            :
+             this.state.addressSelected ? 
+                 <View style={{
+                 marginVertical : 0.02*screenHeight,
+                 marginLeft : 0.05*screenWidth,
+                 width : 0.9*screenWidth,
+                 elevation : 5,
+                 backgroundColor : "#fff",
+                 height : 0.15*screenHeight,
+                 justifyContent : "center",
+                 borderRadius : 0.04*screenWidth,
+                 position : "absolute",
+                 top : 0.08*screenHeight
+             }} >
+             <View style={{flexDirection : "row", alignItems : "center"}} >
+                 <MIcon name="checkbox-blank-circle" color="#13DA9C" style={{marginLeft : 0.05*screenWidth}} />
+                 <Text style={styles.Text1} >24, Ocean avenue</Text>
+             </View>
+
+             <View
+                 style={{
+                     height : 0.025*screenHeight,
+                     width : 1,
+                     backgroundColor : "#3E4958",
+                     marginLeft : 0.06*screenWidth
+                 }}
+             />
+
+             <View style={{flexDirection : "row", alignItems : "center"}} >
+                 <MIcon name="menu-down" color="#4B545A" style={{marginLeft : 0.03*screenWidth}} size={0.065*screenWidth} />
+                 <Text style={[styles.Text1, {marginLeft : 0.02*screenWidth}]} >Karwal nagar</Text>
+             </View>
+             </View>
+             :
+             this.state.arriving ? 
+             null
+             :
+             <View style={styles.Header} >
+            <TouchableOpacity style={styles.MenuButton} onPress={() => {this.props.navigation.openDrawer()}} >
+             <Image source={require("../assets/images/menu.png")} />
+         </TouchableOpacity>
+
+         <View style={styles.LocationContainer} >
+             <Icon name="circle" size={0.04*screenWidth} color="#20C968" style={{marginLeft : 0.05*screenWidth}} />
+             <Text style={styles.Location} >{this.state.Location}</Text>
+         </View>
+         </View>
+        }
+
+     <MapView style={styles.Map}
+     initialRegion={this.state.region}
+     onRegionChange={(region) => {this.setState({region : region})}}
+      >
+          <Marker
+              title="marker"
+              icon={require("../assets/images/pointer.png")}
+              coordinate={this.state.LatLng[0]}
+              draggable={true}
+          />
+             <Marker
+              title="marker"
+              icon={require("../assets/images/marker.png")}
+              coordinate={this.state.LatLng[1]}
+              draggable={true}
+          />
+
+          <MapViewDirection
+              origin={this.state.LatLng[0]}
+              destination={this.state.LatLng[1]}
+              apikey={GOOGLE_API_KEY}
+              strokeWidth={3}
+              strokeColor="#13DA9C"
+              optimizeWaypoints={true}
+              
+          />
+          
+      </MapView>
+
+      {
+          this.state.selectAddress ? 
+          <TouchableOpacity style={{
+              height : "100%",
+              width : "100%",
+              position : "absolute",
+              zIndex : 100
+          }} onPress={() => {
+              this.setState({
+                  selectAddress : false
+              })
+          }} activeOpacity={1} >
+
+              <View style={{
+                  flexDirection : "row",
+                  marginTop : 0.05*screenHeight,
+                  marginLeft : 0.03*screenWidth,
+                  alignItems : "center"
+              }} >
+                  <IconButton icon="chevron-left" size={0.05*screenWidth} style={{
+                      backgroundColor : "#fff"
+                  }} />
+
+                  <Text style={{
+                      marginLeft : 0.03*screenWidth,
+                      fontFamily : "Bold",
+                      color : "#3E4958",
+                      fontSize : 0.045*screenWidth
+                  }} >Select address</Text>
+              </View>
+
+             <View style={{
+                 height : 0.75*screenHeight,
+                 width : screenWidth,
+                 backgroundColor : "#fff",
+                 position : "absolute",
+                 bottom : 0,
+                 zIndex : 100,
+                 borderTopRightRadius : 0.05*screenWidth,
+                 borderTopLeftRadius : 0.05*screenWidth
+             }} >
+
+             <View style={{
+                 height : 0.006*screenHeight,
+                 width : 0.1*screenWidth,
+                 backgroundColor : "#D5DDE0",
+                 alignSelf : "center",
+                 marginVertical : 0.02*screenHeight,
+                 borderRadius : screenHeight
+             }} />
+
+         <View style={{
+                 marginVertical : 0.02*screenHeight,
+                 marginLeft : 0.05*screenWidth,
+                 width : 0.9*screenWidth,
+                 elevation : 5,
+                 backgroundColor : "#fff",
+                 height : 0.15*screenHeight,
+                 justifyContent : "center",
+                 borderRadius : 0.04*screenWidth
+             }} >
+             <View style={{flexDirection : "row", alignItems : "center"}} >
+                 <MIcon name="checkbox-blank-circle" color="#13DA9C" style={{marginLeft : 0.05*screenWidth}} />
+                 <Text style={styles.Text1} >24, Ocean avenue</Text>
+             </View>
+
+             <View
+                 style={{
+                     height : 0.025*screenHeight,
+                     width : 1,
+                     backgroundColor : "#3E4958",
+                     marginLeft : 0.06*screenWidth
+                 }}
+             />
+
+             <View style={{flexDirection : "row", alignItems : "center"}} >
+                 <MIcon name="menu-down" color="#4B545A" style={{marginLeft : 0.03*screenWidth}} size={0.065*screenWidth} />
+                 <Text style={[styles.Text1, {marginLeft : 0.02*screenWidth}]} >Karwal nagar</Text>
+             </View>
+             </View>
+
+             <TouchableOpacity style={{flexDirection : "row", alignItems : "center"}} >
+                 <Image
+                     source={require("../assets/images/pointer.png")}
+                     style={{
+                         height : 0.03*screenHeight,
+                         width : 0.03*screenHeight,
+                         marginLeft : 0.05*screenWidth,
+                         marginVertical : 0.02*screenHeight
+                     }} 
+                 />
+
+             <Text style={[styles.Text1, {marginLeft : 0.02*screenWidth}]} >Show on a map</Text>
+             </TouchableOpacity>
+
+             <Text style={[styles.Text5, {marginLeft : 0.05*screenWidth, fontFamily : "SemiBold", marginTop : 0.03*screenHeight}]} >RECENT</Text>
+
+
+                     <View style={{marginTop : 0.02*screenHeight}} >
+                     <FlatList
+                         data={data}
+                         renderItem={({item}) => (
+                             <TouchableOpacity style={{
+                                 flexDirection : "row",
+                                 alignItems : "center",
+                                 margin : 0.015*screenHeight,
+                                 marginLeft : 0.05*screenWidth
+                             }} onPress={() => {
+                                 this.setState({
+                                     addressSelected : true,
+                                     selectAddress : false
+                             })}} >
+                                 <View style={{
+                                     height : 0.06*screenHeight,
+                                     width : 0.06*screenHeight,
+                                     backgroundColor : "#D5DDE0",
+                                     alignItems : "center",
+                                     justifyContent : "center",
+                                     borderRadius : screenHeight
+                                 }} >
+                                     <MIcon name="map-marker" size={0.065*screenWidth} color="#fff" />
+                                 </View>
+                                
+                                 <View style={{
+                                     marginLeft : 0.05*screenWidth
+                                 }} >
+                                 <Text style={[styles.Text1, {marginLeft : 0.02*screenWidth}]} >{item.title}</Text>
+                                 <Text style={[styles.Text5, {marginLeft : 0.02*screenWidth}]} >{item.des}</Text>
+                                 </View>
+                             </TouchableOpacity>
+                         )}
                      />
 
-                     <MapViewDirection
-                         origin={this.state.LatLng[0]}
-                         destination={this.state.LatLng[1]}
-                         apikey={GOOGLE_API_KEY}
-                         strokeWidth={3}
-                         strokeColor="#13DA9C"
-                         optimizeWaypoints={true}
-                         
-                     />
-                     
-                 </MapView>
+                     </View>
 
+             </View>
+
+          </TouchableOpacity>
+          :
+          this.state.addressSelected ? 
+          <View style={[styles.DetailContainer, {height : 0.4*screenHeight}]} >
+
+     <View style={{
+                 height : 0.15*screenHeight,
+                 width : 0.82*screenWidth,
+                 elevation : 5,
+                 borderRadius : 0.045*screenWidth,
+                 position : "absolute",
+                 top : 0.04*screenHeight,
+                 zIndex : -100,
+                 alignSelf : "center",
                  
-
-                 {
-                     this.state.selectAddress ? 
-                     <View style={{
-                         height : "100%",
-                         width : "100%",
-                         position : "absolute",
-                         zIndex : 100
-                     }} >
-
-                        <View style={{
-                            height : 0.75*screenHeight,
-                            width : screenWidth,
-                            backgroundColor : "#fff",
-                            position : "absolute",
-                            bottom : 0,
-                            zIndex : 100,
-                            borderTopRightRadius : 0.05*screenWidth,
-                            borderTopLeftRadius : 0.05*screenWidth
-                        }} >
-
-                        <View style={{
-                            height : 0.006*screenHeight,
-                            width : 0.1*screenWidth,
-                            backgroundColor : "#D5DDE0",
-                            alignSelf : "center",
-                            marginVertical : 0.02*screenHeight,
-                            borderRadius : screenHeight
-                        }} />
-
-                    <View style={{
-                            marginVertical : 0.02*screenHeight,
-                            marginLeft : 0.05*screenWidth,
-                            width : 0.9*screenWidth,
-                            elevation : 5,
-                            backgroundColor : "#fff",
-                            height : 0.15*screenHeight,
-                            justifyContent : "center",
-                            borderRadius : 0.04*screenWidth
-                        }} >
-                        <View style={{flexDirection : "row", alignItems : "center"}} >
-                            <MIcon name="checkbox-blank-circle" color="#13DA9C" style={{marginLeft : 0.05*screenWidth}} />
-                            <Text style={styles.Text1} >24, Ocean avenue</Text>
-                        </View>
-
-                        <View
-                            style={{
-                                height : 0.025*screenHeight,
-                                width : 1,
-                                backgroundColor : "#3E4958",
-                                marginLeft : 0.06*screenWidth
-                            }}
-                        />
-
-                        <View style={{flexDirection : "row", alignItems : "center"}} >
-                            <MIcon name="menu-down" color="#4B545A" style={{marginLeft : 0.03*screenWidth}} size={0.065*screenWidth} />
-                            <Text style={[styles.Text1, {marginLeft : 0.02*screenWidth}]} >Karwal nagar</Text>
-                        </View>
-                        </View>
-
-                        <TouchableOpacity style={{flexDirection : "row", alignItems : "center"}} >
-                            <Image
-                                source={require("../assets/images/pointer.png")}
-                                style={{
-                                    height : 0.03*screenHeight,
-                                    width : 0.03*screenHeight,
-                                    marginLeft : 0.05*screenWidth,
-                                    marginVertical : 0.02*screenHeight
-                                }} 
-                            />
-
-                        <Text style={[styles.Text1, {marginLeft : 0.02*screenWidth}]} >Show on a map</Text>
-                        </TouchableOpacity>
-
-                        <Text style={[styles.Text5, {marginLeft : 0.05*screenWidth, fontFamily : "SemiBold", marginTop : 0.03*screenHeight}]} >RECENT</Text>
-
-
-                                <View style={{marginTop : 0.02*screenHeight}} >
-                                <FlatList
-                                    data={data}
-                                    renderItem={({item}) => (
-                                        <TouchableOpacity style={{
-                                            flexDirection : "row",
-                                            alignItems : "center",
-                                            margin : 0.015*screenHeight,
-                                            marginLeft : 0.05*screenWidth
-                                        }} onPress={() => {
-                                            this.setState({
-                                                addressSelected : true,
-                                                selectAddress : false
-                                        })}} >
-                                            <View style={{
-                                                height : 0.06*screenHeight,
-                                                width : 0.06*screenHeight,
-                                                backgroundColor : "#D5DDE0",
-                                                alignItems : "center",
-                                                justifyContent : "center",
-                                                borderRadius : screenHeight
-                                            }} >
-                                                <MIcon name="map-marker" size={0.065*screenWidth} color="#fff" />
-                                            </View>
-                                           
-                                            <View style={{
-                                                marginLeft : 0.05*screenWidth
-                                            }} >
-                                            <Text style={[styles.Text1, {marginLeft : 0.02*screenWidth}]} >{item.title}</Text>
-                                            <Text style={[styles.Text5, {marginLeft : 0.02*screenWidth}]} >{item.des}</Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                    )}
-                                />
-
-                                </View>
-
-                        </View>
-
-                     </View>
-                     :
-                     this.state.addressSelected ? 
-                     <View style={[styles.DetailContainer, {height : 0.4*screenHeight}]} >
-
-                        <View style={{
-                            height : 0.15*screenHeight,
-                            width : 0.9*screenWidth,
-                            backgroundColor : "#fff",
-                            elevation : 5,
-                            margin : 0.05*screenWidth,
-                            borderRadius : 0.045*screenWidth
-                        }} >
-                        <View style={{flexDirection : "row", alignItems : "center"}} >
-                        <Image
-                            source={require("../assets/images/bike-1.png")}
-                            style={{
-                                height : 0.045*screenHeight,
-                                width : 0.1*screenWidth,
-                                marginLeft : 0.05*screenWidth,
-                                marginTop : 0.02*screenHeight
-                            }}
-                        />
-                       <Text style={[styles.Location,{ fontFamily : "SemiBold", fontSize : 0.045*screenWidth, marginTop : 0.025*screenHeight}]} >Go Ride</Text>
-                       <Text style={[styles.Location,
-                       { fontFamily : "Medium", 
-                       fontSize : 0.045*screenWidth, 
-                       top : 0.025*screenHeight,
-                       textDecorationLine: 'line-through', 
-                       textDecorationStyle: 'solid',
-                       color : "#3E4958",
-                       opacity : 0.5,
-                       position : "absolute",
-                       right : 0.2*screenWidth
-                       }]} 
-                       >Rs.480</Text>
-
-                        <Text style={[styles.Location,
-                       { fontFamily : "SemiBold", 
-                       fontSize : 0.045*screenWidth, 
-                       top : 0.025*screenHeight,
-                       textDecorationLine: 'line-through', 
-                       textDecorationStyle: 'solid',
-                       color : "#13DA9C",
-                       position : "absolute",
-                       right : 0.05*screenWidth
-                       }]} 
-                       >Rs.280</Text>
-
-                        </View>
-                        <View style={{flexDirection : "row", alignItems : "center"}} >
-                        <View style={{
-                            height : 0.04*screenHeight,
-                            width : 0.22*screenWidth,
-                            backgroundColor : "#D5DDE0",
-                            position : "absolute",
-                            right : 0.05*screenWidth,
-                            borderRadius : screenWidth,
-                            alignItems : "center",
-                            justifyContent : "center"
-                        }} >
-                     <Text style={[styles.Location, {marginTop : 0, marginLeft : 0, fontFamily : "SemiBold", color:"#fff"}]} >3 min</Text>
-                        </View>
-                        <Text style={[styles.Location, {marginTop : 0.01*screenHeight}]} >Get 20% off your first booking</Text>
-                        </View>
-                        </View>
-
-                        <View style={{flexDirection : "row", alignItems : "center",marginTop : 0.02*screenHeight, width : screenWidth}} >
-                        <Text style={[styles.Location, {}]} >Estimated trip time {"\n"}
-                        {
-                            <Text style={[styles.Location, {color : "#13DA9C"}]} >24 min</Text>
-                        }
-                        </Text>
-
-                        
-                        <Image
-                            source={require("../assets/images/paytm2.png")}
-                            style={{
-                                height : 0.03*screenHeight,
-                                width : 0.2*screenWidth,
-                                position : "absolute",
-                                right : 0.16*screenWidth
-                            }}
-                        />
-                        <IconButton icon="chevron-down" color="#4B545A"                             
-                        style={{
-                                height : 0.03*screenHeight,
-                                width : 0.2*screenWidth,
-                                position : "absolute",
-                                right : 0.0*screenWidth
-                            }} />
-                        </View>
-
-                            <TouchableOpacity style={styles.Button} onPress={() => {
-                                this.setState({
-                                    selectPayment : true,
-                                    addressSelected : false
-                                })
-                            }} >
-                            <Text style={[styles.Location, {color : "#fff", fontFamily : "Bold", marginLeft : 0, fontSize : 0.045*screenWidth}]} >Book Now</Text>
-                            </TouchableOpacity>
-
-                     </View>
-                     :
-                     this.state.selectPayment ? 
-
-                     <ScrollView style={{
-                         height : "100%",
-                         width : "100%",
-                         backgroundColor : "rgba(0,0,0,0.5)",
-                         position : "absolute",
-                         zIndex : 100
-                     }} showsVerticalScrollIndicator={false} > 
-                     <View  >
-
-
-                     <View style={{
-                         marginTop : 0.1*screenHeight,
-                         height : 0.9*screenHeight,
-                         width : screenWidth,
-                         backgroundColor : "#fff",
-                         borderTopLeftRadius : 0.05*screenWidth,
-                         borderTopRightRadius : 0.05*screenWidth
-                     }} >
-
-
-                     <View style={{flexDirection : "row", marginTop : 0.03*screenHeight, alignItems : "center"}} >
-                     <Text style={{
-                         fontFamily : "SemiBold",
-                         fontSize : 0.05*screenWidth,
-                         color : "#3E4958",
-                         marginLeft : 0.08*screenWidth
-                     }} >Select payment</Text>
-
-                     <IconButton icon="close" color="#3E4958" style={{
-                         position : "absolute",
-                         right : 0.05*screenWidth
-                     }}  onPress={() => {
-                         this.setState({
-                             selectPayment : false
-                         })
-                     }} />
-
-                     </View>
-
-                        <View style={styles.Dash} />
-
-                        <View style={{flexDirection : "row", alignItems : "center"}} >
-
-                        <IconButton
-                            icon="credit-card-outline"
-                            color="#3E4958"
-                            style={{
-                                marginLeft : 0.05*screenWidth
-                            }}
-                            size={0.065*screenWidth}
-                        />
-
-                    <Text style={{
-                         fontFamily : "Medium",
-                         fontSize : 0.05*screenWidth,
-                         color : "#3E4958",
-                         marginLeft : 0.03*screenWidth
-                     }} >GoCredit Balance</Text>
-
-                     <CheckBox
-                         value={false}
-                         style={{
-                             position : "absolute",
-                             right : 0.05*screenWidth
-                         }}
-                     />
-
-                        </View>
-
-                        <View style={styles.Dash} />
-
-                        <Text style={{
-                         fontFamily : "SemiBold",
-                         fontSize : 0.05*screenWidth,
-                         color : "#3E4958",
-                         marginLeft : 0.08*screenWidth
-                     }} >Coupon Code</Text>
-
-                     <View style={{
-                         flexDirection : "row", 
-                         alignItems : "center",
-                         borderWidth : 2,
-                         height : 0.07*screenHeight,
-                         width : 0.9*screenWidth,
-                         alignSelf : "center",
-                         marginVertical : 0.03*screenHeight,
-                         borderColor : "#808080",
-                         borderStyle : 'dashed',
-                         borderRadius: 0.02*screenWidth,
-                         }} >
-
-                     <IconButton icon="ticket-outline" color="#909AA8" style={{
-                         marginLeft : 0.03*screenWidth
-                     }} />
-
-                     <TextInput
-                         placeholder="Enter Coupon"
-                         style={{
-                             fontFamily : "Medium",
-                             width : "60%"
-                         }}
-                     />
-
-                     <Text style={{
-                         fontFamily : "Medium",
-                         position : "absolute",
-                         right : 0.05*screenWidth,
-                         fontSize : 0.045*screenWidth,
-                         color : "#13DA9C"
-                     }} >APPLY</Text>
-
-                     </View>
-
-                     <View style={styles.Dash} />
-
-
-                     <Text style={{
-                         fontFamily : "SemiBold",
-                         fontSize : 0.05*screenWidth,
-                         color : "#3E4958",
-                         marginLeft : 0.08*screenWidth
-                     }} >Other Payment Methods</Text>
-
-                        <View style={{flexDirection : "row", alignItems : "center", marginTop : 0.025*screenHeight}} >
-
-                        <Image
-                            source={require("../assets/images/cash.png")}
-                            style={{
-                                height : 0.045*screenHeight,
-                                width : 0.045*screenHeight,
-                                marginLeft : 0.05*screenWidth
-                            }}
-                        />
-
-                    <Text style={{
-                         fontFamily : "Medium",
-                         fontSize : 0.045*screenWidth,
-                         color : "#3E4958",
-                         marginLeft : 0.1*screenWidth
-                     }} >Cash</Text>
-
-                     <CheckBox
-                         value={true}
-                         style={{
-                             position : "absolute",
-                             right : 0.08*screenWidth
-                         }}
-                     />
-
-                        </View>
-
-
-                        <View style={{flexDirection : "row", alignItems : "center", marginTop : 0.03*screenHeight}} >
-
-                        <Image
-                            source={require("../assets/images/paytm2.png")}
-                            style={{
-                                height : 0.018*screenHeight,
-                                width : 0.05*screenHeight,
-                                marginLeft : 0.05*screenWidth
-                            }}
-                        />
-
-                    <Text style={{
-                         fontFamily : "Medium",
-                         fontSize : 0.045*screenWidth,
-                         color : "#3E4958",
-                         marginLeft : 0.1*screenWidth
-                     }} >PayTM</Text>
-
-                     <CheckBox
-                         value={false}
-                         style={{
-                             position : "absolute",
-                             right : 0.08*screenWidth
-                         }}
-                     />
-
-                        </View>
-
-
-                        <View style={{flexDirection : "row", alignItems : "center", marginTop : 0.03*screenHeight}} >
-
-                        <Image
-                            source={require("../assets/images/freechange.png")}
-                            style={{
-                                height : 0.045*screenHeight,
-                                width : 0.045*screenHeight,
-                                marginLeft : 0.05*screenWidth
-                            }}
-                        />
-
-                    <Text style={{
-                         fontFamily : "Medium",
-                         fontSize : 0.045*screenWidth,
-                         color : "#3E4958",
-                         marginLeft : 0.1*screenWidth
-                     }} >Freechange</Text>
-
-                     <CheckBox
-                         value={false}
-                         style={{
-                             position : "absolute",
-                             right : 0.08*screenWidth
-                         }}
-                     />
-
-                        </View>
-
-                        <View style={styles.Dash} />
-
-                         <TouchableOpacity style={styles.Button} onPress={() => {
-                             this.setState({
-                                 addressSelected : false,
-                                 arriving : true,
-                                 selectPayment : false
-                             })
-                         }} >
-                         <Text style={{
-                         fontFamily : "Bold",
-                         fontSize : 0.045*screenWidth,
-                         color : "#fff",
-                     }} >Confirm</Text>
-                         </TouchableOpacity>
-
-                     </View>
-
-
-                     </View>
-
-                     </ScrollView>
-
-                     :
-                     
-                     this.state.arriving ? 
-                     <View style={{
-                     }} >
-
-                     <View style={{
-                         height : 0.7*screenHeight,
-                         width : screenWidth,
-                         backgroundColor : "#fff",
-                         position : "absolute",
-                         bottom : this.state.bottom,
-                         borderTopLeftRadius : 0.05*screenWidth,
-                         borderTopRightRadius : 0.05*screenWidth,
-                     }} >
-
-                        <View   
-                        
-                        style={{
-                                top : -0.05*screenHeight,
-                                position : "absolute",
-                                left : 0.06*screenWidth,
-                                backgroundColor : "#fff",
-                                height : 0.11*screenHeight,
-                                width : 0.11*screenHeight,
-                                alignItems : "center",
-                                justifyContent : "center",
-                                borderRadius : screenHeight
-                            }} >
-                        <Image
-                            source={require("../assets/images/avatar.png")}
-
-                        />
-                        </View>
-
-                        <TouchableOpacity   
-                        
-                        style={{
-                                top : -0.05*screenHeight,
-                                position : "absolute",
-                                right : 0.06*screenWidth,
-                                backgroundColor : "#fff",
-                                height : 0.08*screenHeight,
-                                width : 0.08*screenHeight,
-                                alignItems : "center",
-                                justifyContent : "center",
-                                borderRadius : screenHeight,
-                                elevation : 10
-                            }} >
-
-                               <MIcon name="phone-in-talk" size={0.035*screenHeight} color="#13DA9C" />
-
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={{
-                         height : 4,
-                         width : 0.1*screenWidth,
-                         backgroundColor : "#D5DDE0",
-                         position : "absolute",
-                         zIndex : 100,
-                         alignSelf : "center",
-                         top : 0.01*screenHeight,
-                         borderRadius : screenHeight
-                     }} onPress={() => {this.setState({
-                         bottom : 0.05*screenHeight
-                     })}} />
-
-                        <View style={{flexDirection : "row", alignItems : "center", marginTop : 0.08*screenHeight, width : screenWidth}} >
-
-                            <View style={{
-                                marginLeft : 0.05*screenWidth
-                            }} >
-                            <Text style={{
-                                fontFamily : "SemiBold",
-                                fontSize : 0.05*screenWidth
-                            }} >Sunil Singh</Text>
-
-                                <View style={{
-                                    flexDirection : "row"
-                                }} >
-
-                                <MIcon name="star" size={0.05*screenWidth} color="#F1C233" />
-                                <MIcon name="star" size={0.05*screenWidth} color="#F1C233" />
-                                <MIcon name="star" size={0.05*screenWidth} color="#F1C233" />
-                                <MIcon name="star" size={0.05*screenWidth} color="#F1C233" />
-                                <Text style={{
-                                fontFamily : "Medium",
-                                fontSize : 0.045*screenWidth,
-                                marginLeft : 0.03*screenWidth
-                            }} >4.0</Text>
-                                </View>
-
-                            </View>
-
-
-                            <View style={{
-                                right : 0.05*screenWidth,
-                                position : "absolute"
-                            }} >
-                            <Text style={{
-                                fontFamily : "SemiBold",
-                                fontSize : 0.05*screenWidth
-                            }} >DL-CAT-0518</Text>
-
-                            <Text style={{
-                                fontFamily : "Medium",
-                                fontSize : 0.04*screenWidth,
-                                textAlign : "right",
-                                color : "#3E4958"
-                            }} >Hero Honda</Text>
-
-                            </View>
-                        </View>
-
-                        <View style={{
-                            flexDirection : "row",
-                            alignItems : "center",
-                            marginTop : 0.04*screenHeight
-                        }} >
-
-                        <TouchableOpacity style={{
-                            padding : 10,
-                            backgroundColor : "#F3F5F6",
-                            marginLeft : 0.03*screenWidth,
-                            borderRadius : 0.02*screenWidth
-                        }} onPress={() => {
-                            this.setState({
-                                arriving : false,
-                                cancel : true
-                            })
-                        }} >
-                      <Text style={{
-                                fontFamily : "Medium",
-                                fontSize : 0.04*screenWidth,
-                                textAlign : "right",
-                                color : "#3E4958"
-                            }} >Cancel Ride</Text>
-                        </TouchableOpacity>
-
-                        <Text style={{
-                                fontFamily : "Medium",
-                                fontSize : 0.04*screenWidth,
-                                textAlign : "right",
-                                color : "#3E4958",
-                                position : "absolute",
-                                right : 0.05*screenWidth
-                            }} >Estimated Charges   Rs 55.00</Text>
-
-                        </View>
-
-
-                        <View style={{
-                            flexDirection : "row",
-                            alignItems : "center",
-                            marginTop : 0.04*screenHeight
-                        }} >
-
-                                <Text style={{
-                                fontFamily : "Medium",
-                                fontSize : 0.04*screenWidth,
-                                textAlign : "left",
-                                color : "#3E4958",
-                                marginLeft : 0.05*screenWidth
-                            }} >You ride is insured {"\n"}Insurance powered By Acko</Text>
-
-                        <Text style={{
-                                fontFamily : "Medium",
-                                fontSize : 0.07*screenWidth,
-                                textAlign : "right",
-                                color : "#3B3D78",
-                                position : "absolute",
-                                right : 0.05*screenWidth
-                            }} >PIN: 8765</Text>
-
-                        </View>
-
-                        <View>
-                        </View>
-
-                        <View style={{flexDirection : "row", alignItems : "flex-start", marginLeft : 0.05*screenWidth, marginTop : 0.03*screenHeight}} >
-                            <Text style={styles.Text5} >11:24</Text>
-                            <MIcon name="checkbox-blank-circle" color="#13DA9C" style={{marginLeft : 0.05*screenWidth, marginTop : 0.005*screenHeight}} />
-                            <View>
-                            <Text style={styles.Text1} >Pick-up point</Text>
-                            <Text style={styles.Text1} >1, Thrale Street, London, {"\n"}SE19HW, UK</Text>
-                            </View>
-                        </View>
-
-                        <View style={{
-                            height : 0.11*screenHeight,
-                            width : 3,
-                            backgroundColor : "#3E4958",
-                            marginLeft : 0.175*screenWidth,
-                            top : -0.06*screenHeight
-                        }} />
-
-                    <View style={{flexDirection : "row", alignItems : "flex-start", marginLeft : 0.05*screenWidth, marginTop : -0.05*screenHeight}} >
-                            <Text style={styles.Text5} >11:24</Text>
-                            <MIcon name="menu-down" color="#4B545A" style={{marginLeft : 0.03*screenWidth}} size={0.065*screenWidth} />
-                            <View>
-                            <Text style={styles.Text1} >Drop point</Text>
-                            <Text style={styles.Text1} >Ealing Broadway Shopping {"\n"}Centre, London, W55JY, UK</Text>
-                            </View>
-                        </View>
-
-                        <View style={{flexDirection : "row", alignItems : "center",marginTop : 0.02*screenHeight, width : screenWidth}} >
-                        <Text style={[styles.Location, {}]} >Estimated trip time {"\n"}
-                        {
-                            <Text style={[styles.Location, {color : "#13DA9C"}]} >24 min</Text>
-                        }
-                        </Text>
-                        <Image
-                            source={require("../assets/images/paytm2.png")}
-                            style={{
-                                height : 0.03*screenHeight,
-                                width : 0.2*screenWidth,
-                                position : "absolute",
-                                right : 0.1*screenWidth
-                            }}
-                        />
-                        <IconButton icon="chevron-down" color="#4B545A"                             
-                        style={{
-                                height : 0.03*screenHeight,
-                                width : 0.2*screenWidth,
-                                position : "absolute",
-                                right : -0.06*screenWidth
-                            }} />
-                        </View>
-
-                     </View>
-
-                     </View>
-                     :
-                     <View style={styles.DetailContainer} >
-
-                 <TouchableOpacity style={[styles.Crosshairs, {zIndex : -100}]} >
-                     <MIcon name="crosshairs-gps" size={0.065*screenWidth} color="#3E4958" />
+             }} ></View>
+
+             <View style={{
+                 height : 0.15*screenHeight,
+                 width : 0.9*screenWidth,
+                 backgroundColor : "#fff",
+                 elevation : 5,
+                 margin : 0.05*screenWidth,
+                 borderRadius : 0.045*screenWidth,
+                 zIndex : 100
+             }} >
+             <View style={{flexDirection : "row", alignItems : "center"}} >
+             <Image
+                 source={require("../assets/images/bike-1.png")}
+                 style={{
+                     height : 0.045*screenHeight,
+                     width : 0.1*screenWidth,
+                     marginLeft : 0.05*screenWidth,
+                     marginTop : 0.02*screenHeight
+                 }}
+             />
+            <Text style={[styles.Location,{ fontFamily : "SemiBold", fontSize : 0.045*screenWidth, marginTop : 0.025*screenHeight}]} >Go Ride</Text>
+            <Text style={[styles.Location,
+            { fontFamily : "Medium", 
+            fontSize : 0.045*screenWidth, 
+            top : 0.025*screenHeight,
+            textDecorationLine: 'line-through', 
+            textDecorationStyle: 'solid',
+            color : "#3E4958",
+            opacity : 0.5,
+            position : "absolute",
+            right : 0.2*screenWidth
+            }]} 
+            >Rs.480</Text>
+
+             <Text style={[styles.Location,
+            { fontFamily : "SemiBold", 
+            fontSize : 0.045*screenWidth, 
+            top : 0.025*screenHeight,
+            textDecorationLine: 'line-through', 
+            textDecorationStyle: 'solid',
+            color : "#13DA9C",
+            position : "absolute",
+            right : 0.05*screenWidth
+            }]} 
+            >Rs.280</Text>
+
+             </View>
+
+
+
+
+             <View style={{flexDirection : "row", alignItems : "center"}} >
+             <View style={{
+                 height : 0.04*screenHeight,
+                 width : 0.22*screenWidth,
+                 backgroundColor : "#D5DDE0",
+                 position : "absolute",
+                 right : 0.05*screenWidth,
+                 borderRadius : screenWidth,
+                 alignItems : "center",
+                 justifyContent : "center"
+             }} >
+          <Text style={[styles.Location, {marginTop : 0, marginLeft : 0, fontFamily : "SemiBold", color:"#fff"}]} >3 min</Text>
+             </View>
+             <Text style={[styles.Location, {marginTop : 0.01*screenHeight}]} >Get 20% off your first booking</Text>
+             </View>
+             </View>
+
+             <View style={{flexDirection : "row", alignItems : "center",marginTop : 0.02*screenHeight, width : screenWidth}} >
+             <Text style={[styles.Location, {}]} >Estimated trip time {"\n"}
+             {
+                 <Text style={[styles.Location, {color : "#13DA9C"}]} >24 min</Text>
+             }
+             </Text>
+
+             
+             <Image
+                 source={require("../assets/images/paytm2.png")}
+                 style={{
+                     height : 0.03*screenHeight,
+                     width : 0.2*screenWidth,
+                     position : "absolute",
+                     right : 0.16*screenWidth
+                 }}
+             />
+             <IconButton icon="chevron-down" color="#4B545A"                             
+             style={{
+                     height : 0.03*screenHeight,
+                     width : 0.2*screenWidth,
+                     position : "absolute",
+                     right : 0.0*screenWidth
+                 }} />
+             </View>
+
+                 <TouchableOpacity style={styles.Button} onPress={() => {
+                     this.setState({
+                         selectPayment : true,
+                         addressSelected : false
+                     })
+                 }} >
+                 <Text style={[styles.Location, {color : "#fff", fontFamily : "Bold", marginLeft : 0, fontSize : 0.045*screenWidth}]} >Book Now</Text>
                  </TouchableOpacity>
 
-                    <View style={styles.SearchBar} >
-                        <MIcon name="magnify" size={0.06*screenWidth} color="#3B3D78" style={{marginLeft : 0.04*screenWidth}} />
-                        <TextInput
-                            style={styles.TextInput}
-                            placeholder="Search Drop location"
-                            placeholderTextColor="#383A3C"
-                            onChangeText = {(location) => {this.setState({SearchLocation : location})}}
-                            value={this.state.SearchLocation}
-                        />
-                    </View>
+          </View>
+          :
+          this.state.selectPayment ? 
 
-                    <View style={styles.LocationSugg} >
-                        <TouchableOpacity style={styles.LocationSugg} onPress={() => {this.setState({
-                            selectAddress : true
-                        })}} >
-                                <View style={styles.IconContainer} >
-                                    <MIcon name="map-marker" size={0.065*screenWidth} color="#fff" />
-                                </View>
-                                <View>
-                                <Text style={styles.Location} >Kings Cross Underground Statio...</Text>
-                                <Text style={styles.LocationName} >New York</Text>
-                                </View>
-                        </TouchableOpacity>
-                    </View>
-
-                   
-
-                 </View>
-                 }
+          <ScrollView style={{
+              height : "100%",
+              width : "100%",
+              backgroundColor : "rgba(0,0,0,0.5)",
+              position : "absolute",
+              zIndex : 100
+          }} showsVerticalScrollIndicator={false} > 
+          <View  >
 
 
-                 {
-                     this.state.cancel ? 
+          <View style={{
+              marginTop : 0.1*screenHeight,
+              height : 0.9*screenHeight,
+              width : screenWidth,
+              backgroundColor : "#fff",
+              borderTopLeftRadius : 0.05*screenWidth,
+              borderTopRightRadius : 0.05*screenWidth
+          }} >
+
+
+          <View style={{flexDirection : "row", marginTop : 0.03*screenHeight, alignItems : "center"}} >
+          <Text style={{
+              fontFamily : "SemiBold",
+              fontSize : 0.05*screenWidth,
+              color : "#3E4958",
+              marginLeft : 0.08*screenWidth
+          }} >Select payment</Text>
+
+          <IconButton icon="close" color="#3E4958" style={{
+              position : "absolute",
+              right : 0.05*screenWidth
+          }}  onPress={() => {
+              this.setState({
+                  selectPayment : false
+              })
+          }} />
+
+          </View>
+
+             <View style={styles.Dash} />
+
+             <View style={{flexDirection : "row", alignItems : "center"}} >
+
+             <IconButton
+                 icon="credit-card-outline"
+                 color="#3E4958"
+                 style={{
+                     marginLeft : 0.05*screenWidth
+                 }}
+                 size={0.065*screenWidth}
+             />
+
+         <Text style={{
+              fontFamily : "Medium",
+              fontSize : 0.05*screenWidth,
+              color : "#3E4958",
+              marginLeft : 0.03*screenWidth
+          }} >GoCredit Balance</Text>
+
+          <CheckBox
+              value={false}
+              style={{
+                  position : "absolute",
+                  right : 0.05*screenWidth,
+              }}
+              
+          />
+
+             </View>
+
+             <View style={styles.Dash} />
+
+             <Text style={{
+              fontFamily : "SemiBold",
+              fontSize : 0.05*screenWidth,
+              color : "#3E4958",
+              marginLeft : 0.08*screenWidth
+          }} >Coupon Code</Text>
+
+          <View style={{
+              flexDirection : "row", 
+              alignItems : "center",
+              borderWidth : 2,
+              height : 0.07*screenHeight,
+              width : 0.9*screenWidth,
+              alignSelf : "center",
+              marginVertical : 0.03*screenHeight,
+              borderColor : "#808080",
+              borderStyle : 'dashed',
+              borderRadius: 0.02*screenWidth,
+              }} >
+
+          <IconButton icon="ticket-outline" color="#909AA8" style={{
+              marginLeft : 0.03*screenWidth
+          }} />
+
+          <TextInput
+              placeholder="Enter Coupon"
+              style={{
+                  fontFamily : "Medium",
+                  width : "60%"
+              }}
+          />
+
+          <Text style={{
+              fontFamily : "Medium",
+              position : "absolute",
+              right : 0.05*screenWidth,
+              fontSize : 0.045*screenWidth,
+              color : "#13DA9C"
+          }} >APPLY</Text>
+
+          </View>
+
+          <View style={styles.Dash} />
+
+
+          <Text style={{
+              fontFamily : "SemiBold",
+              fontSize : 0.05*screenWidth,
+              color : "#3E4958",
+              marginLeft : 0.08*screenWidth
+          }} >Other Payment Methods</Text>
+
+             <View style={{flexDirection : "row", alignItems : "center", marginTop : 0.025*screenHeight}} >
+
+             <Image
+                 source={require("../assets/images/cash.png")}
+                 style={{
+                     height : 0.045*screenHeight,
+                     width : 0.045*screenHeight,
+                     marginLeft : 0.05*screenWidth
+                 }}
+             />
+
+         <Text style={{
+              fontFamily : "Medium",
+              fontSize : 0.045*screenWidth,
+              color : "#3E4958",
+              marginLeft : 0.1*screenWidth
+          }} >Cash</Text>
+
+          <CheckBox
+              value={true}
+              style={{
+                  position : "absolute",
+                  right : 0.08*screenWidth
+              }}
+          />
+
+             </View>
+
+
+             <View style={{flexDirection : "row", alignItems : "center", marginTop : 0.03*screenHeight}} >
+
+             <Image
+                 source={require("../assets/images/paytm2.png")}
+                 style={{
+                     height : 0.018*screenHeight,
+                     width : 0.05*screenHeight,
+                     marginLeft : 0.05*screenWidth
+                 }}
+             />
+
+         <Text style={{
+              fontFamily : "Medium",
+              fontSize : 0.045*screenWidth,
+              color : "#3E4958",
+              marginLeft : 0.1*screenWidth
+          }} >PayTM</Text>
+
+          <CheckBox
+              value={false}
+              style={{
+                  position : "absolute",
+                  right : 0.08*screenWidth
+              }}
+          />
+
+             </View>
+
+
+             <View style={{flexDirection : "row", alignItems : "center", marginTop : 0.03*screenHeight}} >
+
+             <Image
+                 source={require("../assets/images/freechange.png")}
+                 style={{
+                     height : 0.045*screenHeight,
+                     width : 0.045*screenHeight,
+                     marginLeft : 0.05*screenWidth
+                 }}
+             />
+
+         <Text style={{
+              fontFamily : "Medium",
+              fontSize : 0.045*screenWidth,
+              color : "#3E4958",
+              marginLeft : 0.1*screenWidth
+          }} >Freechange</Text>
+
+          <CheckBox
+              value={false}
+              style={{
+                  position : "absolute",
+                  right : 0.08*screenWidth
+              }}
+          />
+
+             </View>
+
+             <View style={styles.Dash} />
+
+              <TouchableOpacity style={styles.Button} onPress={() => {
+                  this.setState({
+                      addressSelected : false,
+                      arriving : true,
+                      selectPayment : false
+                  })
+              }} >
+              <Text style={{
+              fontFamily : "Bold",
+              fontSize : 0.045*screenWidth,
+              color : "#fff",
+          }} >Confirm</Text>
+              </TouchableOpacity>
+
+          </View>
+
+
+          </View>
+
+          </ScrollView>
+
+          :
+          
+          this.state.arriving ? 
+          <View style={{
+              height : "100%",
+              width : "100%",
+              position : "absolute"
+          }} >
+
+             <View style={{
+                  flexDirection : "row",
+                  marginTop : 0.05*screenHeight,
+                  marginLeft : 0.03*screenWidth,
+                  alignItems : "center"
+              }} >
+                  <IconButton icon="chevron-left" size={0.05*screenWidth} style={{
+                      backgroundColor : "#fff"
+                  }} onPress={() => {
+                      this.setState({
+                          arriving : false
+                      })
+                  }} />
+
+                  <Text style={{
+                      marginLeft : 0.03*screenWidth,
+                      fontFamily : "Bold",
+                      color : "#3E4958",
+                      fontSize : 0.045*screenWidth
+                  }} >Arriving</Text>
+              </View>
+
+          <View style={{
+              height : 0.7*screenHeight,
+              width : screenWidth,
+              backgroundColor : "#fff",
+              position : "absolute",
+              bottom : 0,
+              borderTopLeftRadius : 0.05*screenWidth,
+              borderTopRightRadius : 0.05*screenWidth,
+          }} >
+
+             <View   
+             
+             style={{
+                     top : -0.05*screenHeight,
+                     position : "absolute",
+                     left : 0.06*screenWidth,
+                     backgroundColor : "#fff",
+                     height : 0.11*screenHeight,
+                     width : 0.11*screenHeight,
+                     alignItems : "center",
+                     justifyContent : "center",
+                     borderRadius : screenHeight
+                 }} >
+             <Image
+                 source={require("../assets/images/avatar.png")}
+
+             />
+             </View>
+
+             <TouchableOpacity   
+             
+             style={{
+                     top : -0.05*screenHeight,
+                     position : "absolute",
+                     right : 0.06*screenWidth,
+                     backgroundColor : "#fff",
+                     height : 0.08*screenHeight,
+                     width : 0.08*screenHeight,
+                     alignItems : "center",
+                     justifyContent : "center",
+                     borderRadius : screenHeight,
+                     elevation : 10
+                 }} >
+
+                    <MIcon name="phone-in-talk" size={0.035*screenHeight} color="#13DA9C" />
+
+             </TouchableOpacity>
+
+             <TouchableOpacity style={{
+              height : 4,
+              width : 0.1*screenWidth,
+              backgroundColor : "#D5DDE0",
+              position : "absolute",
+              zIndex : 100,
+              alignSelf : "center",
+              top : 0.01*screenHeight,
+              borderRadius : screenHeight
+          }} />
+
+             <View style={{flexDirection : "row", alignItems : "center", marginTop : 0.08*screenHeight, width : screenWidth}} >
+
+                 <View style={{
+                     marginLeft : 0.05*screenWidth
+                 }} >
+                 <Text style={{
+                     fontFamily : "SemiBold",
+                     fontSize : 0.05*screenWidth
+                 }} >Sunil Singh</Text>
+
                      <View style={{
-                         height : "100%",
-                         width : "100%",
-                         backgroundColor : "rgba(0,0,0,0.5)",
-                         position : "absolute",
-                         zIndex : 200
+                         flexDirection : "row"
                      }} >
 
-                        <View style={[styles.DetailContainer, {height : 0.4*screenHeight}]} >
-
-                            <Text style={{
-                                fontFamily : "Medium",
-                                fontSize : 0.04*screenWidth,
-                                alignSelf : "center",
-                                marginTop : 0.03*screenHeight,
-                                textAlign : "center"
-                            }} >
-                            Are you sure you want to cancel {"\n"}this services?
-                            </Text>
-
-                            <Text style={{
-                                fontFamily : "Medium",
-                                fontSize : 0.04*screenWidth,
-                                alignSelf : "center",
-                                marginTop : 0.03*screenHeight,
-                                textAlign : "center"
-                            }} >
-                           Cancellation charges
-                            </Text>
-
-                            <Text style={{
-                                fontFamily : "SemiBold",
-                                fontSize : 0.08*screenWidth,
-                                alignSelf : "center",
-                                marginTop : 0.03*screenHeight,
-                                textAlign : "center"
-                            }} >
-                          Rs 6
-                            </Text>
-
-                            <View style={{
-                                flexDirection : "row",
-                                alignItems : "center",
-                                justifyContent : "center"
-                            }} >
-
-                            <TouchableOpacity style={[styles.Button, {width : 0.35*screenWidth, backgroundColor: "#F3F5F6"}]}
-                            onPress={() => {
-                                this.setState({
-                                    cancel : false
-                                })
-                            }}
-                             >
-                            <Text style={{
-                                fontFamily : "SemiBold",
-                                fontSize : 0.04*screenWidth,
-                            }} >
-                           No
-                            </Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity style={[styles.Button, {width : 0.35*screenWidth}]} onPress={() => {
-                                this.props.navigation.push("CancelRide")
-                            }} >
-                            <Text style={{
-                                fontFamily : "SemiBold",
-                                fontSize : 0.04*screenWidth,
-                                color : "#fff"
-                            }} >
-                           Yes
-                            </Text>
-                            </TouchableOpacity>
-
-                            </View>
-
-                        </View>
-
+                     <MIcon name="star" size={0.05*screenWidth} color="#F1C233" />
+                     <MIcon name="star" size={0.05*screenWidth} color="#F1C233" />
+                     <MIcon name="star" size={0.05*screenWidth} color="#F1C233" />
+                     <MIcon name="star" size={0.05*screenWidth} color="#F1C233" />
+                     <Text style={{
+                     fontFamily : "Medium",
+                     fontSize : 0.045*screenWidth,
+                     marginLeft : 0.03*screenWidth
+                 }} >4.0</Text>
                      </View>
-                     :
-                     null
-                 }
-        </View>
+
+                 </View>
+
+
+                 <View style={{
+                     right : 0.05*screenWidth,
+                     position : "absolute"
+                 }} >
+                 <Text style={{
+                     fontFamily : "SemiBold",
+                     fontSize : 0.05*screenWidth
+                 }} >DL-CAT-0518</Text>
+
+                 <Text style={{
+                     fontFamily : "Medium",
+                     fontSize : 0.04*screenWidth,
+                     textAlign : "right",
+                     color : "#3E4958"
+                 }} >Hero Honda</Text>
+
+                 </View>
+             </View>
+
+             <View style={{
+                 flexDirection : "row",
+                 alignItems : "center",
+                 marginTop : 0.04*screenHeight
+             }} >
+
+             <TouchableOpacity style={{
+                 padding : 10,
+                 backgroundColor : "#F3F5F6",
+                 marginLeft : 0.03*screenWidth,
+                 borderRadius : 0.02*screenWidth
+             }} onPress={() => {
+                 this.setState({
+                     arriving : false,
+                     cancel : true
+                 })
+             }} >
+           <Text style={{
+                     fontFamily : "Medium",
+                     fontSize : 0.04*screenWidth,
+                     textAlign : "right",
+                     color : "#3E4958"
+                 }} >Cancel Ride</Text>
+             </TouchableOpacity>
+
+             <Text style={{
+                     fontFamily : "Medium",
+                     fontSize : 0.04*screenWidth,
+                     textAlign : "right",
+                     color : "#3E4958",
+                     position : "absolute",
+                     right : 0.05*screenWidth
+                 }} >Estimated Charges   Rs 55.00</Text>
+
+             </View>
+
+
+             <View style={{
+                 flexDirection : "row",
+                 alignItems : "center",
+                 marginTop : 0.04*screenHeight
+             }} >
+
+                     <Text style={{
+                     fontFamily : "Medium",
+                     fontSize : 0.04*screenWidth,
+                     textAlign : "left",
+                     color : "#3E4958",
+                     marginLeft : 0.05*screenWidth
+                 }} >You ride is insured {"\n"}Insurance powered By Acko</Text>
+
+             <Text style={{
+                     fontFamily : "Medium",
+                     fontSize : 0.07*screenWidth,
+                     textAlign : "right",
+                     color : "#3B3D78",
+                     position : "absolute",
+                     right : 0.05*screenWidth
+                 }} >PIN: 8765</Text>
+
+             </View>
+
+             <View>
+             </View>
+
+             <View style={{flexDirection : "row", alignItems : "flex-start", marginLeft : 0.05*screenWidth, marginTop : 0.03*screenHeight}} >
+                 <Text style={styles.Text5} >11:24</Text>
+                 <MIcon name="checkbox-blank-circle" color="#13DA9C" style={{marginLeft : 0.05*screenWidth, marginTop : 0.005*screenHeight}} />
+                 <View>
+                 <Text style={styles.Text1} >Pick-up point</Text>
+                 <Text style={styles.Text1} >1, Thrale Street, London, {"\n"}SE19HW, UK</Text>
+                 </View>
+             </View>
+
+             <View style={{
+                 height : 0.11*screenHeight,
+                 width : 3,
+                 backgroundColor : "#3E4958",
+                 marginLeft : 0.175*screenWidth,
+                 top : -0.06*screenHeight
+             }} />
+
+         <View style={{flexDirection : "row", alignItems : "flex-start", marginLeft : 0.05*screenWidth, marginTop : -0.05*screenHeight}} >
+                 <Text style={styles.Text5} >11:24</Text>
+                 <MIcon name="menu-down" color="#4B545A" style={{marginLeft : 0.03*screenWidth}} size={0.065*screenWidth} />
+                 <View>
+                 <Text style={styles.Text1} >Drop point</Text>
+                 <Text style={styles.Text1} >Ealing Broadway Shopping {"\n"}Centre, London, W55JY, UK</Text>
+                 </View>
+             </View>
+
+             <View style={{flexDirection : "row", alignItems : "center",marginTop : 0.02*screenHeight, width : screenWidth}} >
+             <Text style={[styles.Location, {}]} >Estimated trip time {"\n"}
+             {
+                 <Text style={[styles.Location, {color : "#13DA9C"}]} >24 min</Text>
+             }
+             </Text>
+             <Image
+                 source={require("../assets/images/paytm2.png")}
+                 style={{
+                     height : 0.03*screenHeight,
+                     width : 0.2*screenWidth,
+                     position : "absolute",
+                     right : 0.1*screenWidth
+                 }}
+             />
+             <IconButton icon="chevron-down" color="#4B545A"                             
+             style={{
+                     height : 0.03*screenHeight,
+                     width : 0.2*screenWidth,
+                     position : "absolute",
+                     right : -0.06*screenWidth
+                 }} />
+             </View>
+
+          </View>
+
+          </View>
+          :
+          <View style={styles.DetailContainer} >
+
+      <TouchableOpacity style={[styles.Crosshairs, {zIndex : -100}]} >
+          <MIcon name="crosshairs-gps" size={0.065*screenWidth} color="#3E4958" />
+      </TouchableOpacity>
+
+         <View style={styles.SearchBar} >
+             <MIcon name="magnify" size={0.06*screenWidth} color="#3B3D78" style={{marginLeft : 0.04*screenWidth}} />
+             <TextInput
+                 style={styles.TextInput}
+                 placeholder="Search Drop location"
+                 placeholderTextColor="#383A3C"
+                 onChangeText = {(location) => {this.setState({SearchLocation : location})}}
+                 value={this.state.SearchLocation}
+             />
+         </View>
+
+         <View style={styles.LocationSugg} >
+             <TouchableOpacity style={styles.LocationSugg} onPress={() => {this.setState({
+                 selectAddress : true
+             })}} >
+                     <View style={styles.IconContainer} >
+                         <MIcon name="map-marker" size={0.065*screenWidth} color="#fff" />
+                     </View>
+                     <View>
+                     <Text style={styles.Location} >Kings Cross Underground Statio...</Text>
+                     <Text style={styles.LocationName} >New York</Text>
+                     </View>
+             </TouchableOpacity>
+         </View>
+
+        
+
+      </View>
+      }
+
+
+      {
+          this.state.cancel ? 
+          <View style={{
+              height : "100%",
+              width : "100%",
+              backgroundColor : "rgba(0,0,0,0.5)",
+              position : "absolute",
+              zIndex : 200
+          }} >
+
+             <View style={[styles.DetailContainer, {height : 0.4*screenHeight}]} >
+
+                 <Text style={{
+                     fontFamily : "Medium",
+                     fontSize : 0.04*screenWidth,
+                     alignSelf : "center",
+                     marginTop : 0.03*screenHeight,
+                     textAlign : "center"
+                 }} >
+                 Are you sure you want to cancel {"\n"}this services?
+                 </Text>
+
+                 <Text style={{
+                     fontFamily : "Medium",
+                     fontSize : 0.04*screenWidth,
+                     alignSelf : "center",
+                     marginTop : 0.03*screenHeight,
+                     textAlign : "center"
+                 }} >
+                Cancellation charges
+                 </Text>
+
+                 <Text style={{
+                     fontFamily : "SemiBold",
+                     fontSize : 0.08*screenWidth,
+                     alignSelf : "center",
+                     marginTop : 0.03*screenHeight,
+                     textAlign : "center"
+                 }} >
+               Rs 6
+                 </Text>
+
+                 <View style={{
+                     flexDirection : "row",
+                     alignItems : "center",
+                     justifyContent : "center"
+                 }} >
+
+                 <TouchableOpacity style={[styles.Button, {width : 0.35*screenWidth, backgroundColor: "#F3F5F6"}]}
+                 onPress={() => {
+                     this.setState({
+                         cancel : false
+                     })
+                 }}
+                  >
+                 <Text style={{
+                     fontFamily : "SemiBold",
+                     fontSize : 0.04*screenWidth,
+                 }} >
+                No
+                 </Text>
+                 </TouchableOpacity>
+
+                 <TouchableOpacity style={[styles.Button, {width : 0.35*screenWidth}]} onPress={() => {
+                     this.props.navigation.push("CancelRide")
+                 }} >
+                 <Text style={{
+                     fontFamily : "SemiBold",
+                     fontSize : 0.04*screenWidth,
+                     color : "#fff"
+                 }} >
+                Yes
+                 </Text>
+                 </TouchableOpacity>
+
+                 </View>
+
+             </View>
+
+          </View>
+          :
+          null
+      }
+      </View>
     )
 
     render(){
@@ -958,22 +1073,7 @@ class Rental extends React.Component{
         return(
             <View style={styles.Root} >
 
-                
-                   {
-                       this.state.selectAddress ? 
-                       null
-                       :
-                       <View style={styles.Header} >
-                       <TouchableOpacity style={styles.MenuButton} onPress={() => {this.props.navigation.openDrawer()}} >
-                        <Image source={require("../assets/images/menu.png")} />
-                    </TouchableOpacity>
-
-                    <View style={styles.LocationContainer} >
-                        <Icon name="circle" size={0.04*screenWidth} color="#20C968" style={{marginLeft : 0.05*screenWidth}} />
-                        <Text style={styles.Location} >{this.state.Location}</Text>
-                    </View>
-                    </View>
-                   }
+     
 
                    {
                     this.state.rentelSelected ? 
